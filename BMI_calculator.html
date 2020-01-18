@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BMI Calculator</title>
+    <link rel="stylesheet" href="css/all.css">
+    <link rel="shortcut icon" href="img/BMI_logo.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="container">
+        <header class="bg-dark d-flex">
+            <div class="header-element d-flex" style="align-items: center; justify-content: center;">
+                <h1>
+                    <a href="#">BMI Calculator</a>
+                </h1>
+            </div>
+            <div class="header-element">
+                <div class="manHeightDiv">
+                    <label for="manHeight">身高 (cm)</label>
+                    <input type="text" name="manHeight" id="manHeight" placeholder="請輸入身高">
+                </div>
+                <div class="manWeightDiv">
+                    <label for="manWeight">體重 (kg)</label>
+                    <input type="text" name="manWeight" id="manWeight" placeholder="請輸入體重">
+                </div>
+            </div>
+            <div class="header-element d-flex" style="align-items: center;">
+                <button type="button" class="checkResult bg-yellow">看結果</button>
+            </div>
+        </header>
+        <main class="bg-light py-4">
+            <h2 class="text-h2">BMI 紀錄</h2>
+        </main>
+        <footer class="bg-yellow py-4">
+            <img src="img/BMI_logo.png" alt="BIM logo">
+            <br>
+            <small class="text-sm">Design by HexSchool</small>
+            <br>
+            <small class="text-sm">Programming by Eugene Tseng</small>
+        </footer>
+    </div>
+    <script src="javascript/all.js"></script>
+</body>
+
+</html>
