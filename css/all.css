@@ -140,6 +140,11 @@ table {
 .d-flex {
   display: flex;
 }
+
+.d-block {
+  display: block;
+}
+
 .header-element {
   width: 33.333%;
 }
@@ -188,6 +193,19 @@ table {
   font-size: 1.5rem;
 }
 
+.resultRow {
+  background-color: #ffffff;
+  max-width: 80%;
+  margin: 2rem auto;
+  padding: 1.2rem 0;
+  text-align: left;
+}
+
+.resultRow .result-element {
+  width: 16.66666%;
+  padding-left: 1.2rem;
+}
+
 .bg-dark {
   padding: 3rem 0;
   background-color: #424242;
@@ -207,9 +225,17 @@ table {
 }
 
 .text-sm {
-  font-size: 0.6rem;
+  font-size: 0.8rem;
+}
+
+.text-lg {
+  font-size: 1.2rem;
 }
 
 .py-4 {
   padding: 2rem 0;
+}
+
+.pt-2 {
+  padding-top: 0.8rem;
 }
