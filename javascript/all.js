@@ -11,6 +11,7 @@ var bmi;
 var clickTime;
 var bmiLevel;
 var borderColor;
+var allRecords;
 
 // 預先定義全域變數
 
@@ -59,32 +60,76 @@ function rateBMI() {
   }
 }
 
-function storeInLocal() {}
+function storeInLocal() {
+  allRecords = localStorage.getItem("historyRecords");
+
+  if (allRecords === null) {
+    allRecords = [];
+    // 若沒有歷史資料，則讓 allRecords 成為空陣列
+  } else {
+    allRecords = JSON.parse(allRecords);
+    // 若有歷史資料，則開始解析 local storage 資料，轉成陣列
+  }
+
+  let currentRecords = {
+    borderColorKey: borderColor,
+    bmiLevelKey: bmiLevel,
+    bmiKey: bmi,
+    weightKey: manWeightValue,
+    heightKey: manHeightValue,
+    // ※ 注意改動，非manWeightValueKey, manHeightValueKey
+    clickTimeKey: clickTime
+  };
+
+  allRecords.push(currentRecords);
+  // 將當前輸入值丟入紀錄陣列尾端
+
+  allRecords = JSON.stringify(allRecords);
+  // 再將 allRecords 轉成字串丟入 local storage
+
+  localStorage.setItem("historyRecords", allRecords);
+  // 在 local storage 的 key 是 historyRecords
+}
 
 function displayResult() {
-  resultDisplay.innerHTML =
-    `
-<div class="resultRow d-flex" style="border-left: solid 5px` +
-    borderColor +
-    `;">
-<div class="result-element">` +
-    bmiLevel +
-    `</div>
-<div class="result-element"><small class="text-sm">BMI: </small><large class="text-lg">` +
-    bmi +
-    `</large></div>
-<div class="result-element"><small class="text-sm">體重: </small><large class="text-lg">` +
-    manWeightValue +
-    `</large><small class="text-sm"> kg</small></div>
-<div class="result-element"><small class="text-sm">身高: </small><large class="text-lg">` +
-    manHeightValue +
-    `</large><small class="text-sm"> cm</small></div>
-<div class="result-element">` +
-    clickTime +
-    `</div>
-<div class="result-element"><a href="#" class="deleteRecord">delete</a></div>
-</div>
-`;
+  let allRecordsArray = JSON.parse(allRecords);
+  let recordsLength = allRecordsArray.length;
+  // 用來跑迴圈
+  console.log(allRecordsArray[0].borderColorKey);
+  console.log(recordsLength);
+  let totalContent = "";
+  // 空字串，用來儲存最後塞入 innerHTML 的內容
+
+  for (let i = 0; recordsLength > i; i++) {
+    totalContent =
+      totalContent +
+      `
+    <div class="resultRow d-flex" style="border-left: solid 5px` +
+      allRecordsArray[i].borderColorKey +
+      `;">
+    <div class="result-element">` +
+      allRecordsArray[i].bmiLevelKey +
+      `</div>
+    <div class="result-element"><small class="text-sm">BMI: </small><large class="text-lg">` +
+      allRecordsArray[i].bmiKey +
+      `</large></div>
+    <div class="result-element"><small class="text-sm">體重: </small><large class="text-lg">` +
+      allRecordsArray[i].weightKey +
+      `</large><small class="text-sm"> kg</small></div>
+    <div class="result-element"><small class="text-sm">身高: </small><large class="text-lg">` +
+      allRecordsArray[i].heightKey +
+      `</large><small class="text-sm"> cm</small></div>
+    <div class="result-element">` +
+      allRecordsArray[i].clickTimeKey +
+      `</div>
+    <div class="result-element"><a href="#" class="deleteRecord">delete</a></div>
+    </div>
+    `;
+    console.log(totalContent);
+  }
+
+  console.log(totalContent);
+  resultDisplay.innerHTML = totalContent;
 }
 
 checkResult.addEventListener(
@@ -104,8 +149,13 @@ checkResult.addEventListener(
     // 如果輸入非數值，停止函數
 
     calculateBMI();
+
     getDate();
+    // 取得當下時間
+
     rateBMI();
+    // 判斷 BMI 對應的健康程度，並先設定好 border 的色碼
+
     storeInLocal();
     displayResult();
   },
