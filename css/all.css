@@ -239,3 +239,9 @@ table {
 .pt-2 {
   padding-top: 0.8rem;
 }
+
+.deleteRecord {
+  text-decoration: none;
+  color: #990000;
+  cursor: pointer;
+}
