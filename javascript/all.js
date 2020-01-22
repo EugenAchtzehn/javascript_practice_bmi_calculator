@@ -14,6 +14,63 @@ var borderColor;
 
 // 預先定義全域變數
 
+displayResult();
+// 如果有歷史紀錄，一載入就顯示
+
+checkResult.addEventListener(
+  "click",
+  function(e) {
+    e.preventDefault;
+    manHeightValue = parseFloat(manHeight.value);
+    manWeightValue = parseFloat(manWeight.value);
+    // 取出輸入數值，並解析成浮點數
+
+    checkNum();
+    if (isNaN(manHeightValue)) {
+      return;
+    }
+    if (isNaN(manWeightValue)) {
+      return;
+    }
+    // 如果輸入非數值，停止函數
+
+    calculateBMI();
+
+    getDate();
+    // 取得當下時間
+
+    rateBMI();
+    // 判斷 BMI 對應的健康程度，並先設定好 border 的色碼
+
+    storeInLocal();
+    // 取出 local storage 的輸入歷史，並將本次輸入資料存入 local storage
+
+    displayResult();
+    // 將全部的資料丟入迴圈，用 innerHTML 顯示到畫面上
+  },
+  false
+);
+
+resultDisplay.addEventListener(
+  "click",
+  function(e) {
+    e.preventDefault;
+    if (e.target.tagName !== "SPAN") {
+      return;
+    }
+    // 只有點到 <a>delete</a> 才觸發刪除紀錄功能
+    let index = e.target.dataset.index;
+    let allRecords = JSON.parse(localStorage.getItem("historyRecords"));
+    // 因無資料就不會顯示，所以不會有空陣列的判斷問題
+    allRecords.splice(index, 1);
+    localStorage.setItem("historyRecords", JSON.stringify(allRecords));
+    // 剩餘紀錄存回 local storage
+    displayResult();
+    // 重新顯示 HTML
+  },
+  false
+);
+
 // 檢查身高體重是否為數字，若不是則顯示警告
 function checkNum() {
   if (manHeightValue <= 0 || isNaN(manHeightValue)) {
@@ -106,79 +163,16 @@ function displayResult() {
   // 空字串，用來儲存最後塞入 innerHTML 的內容
 
   for (let i = 0; recordsLength > i; i++) {
-    totalContent =
-      totalContent +
-      `
+    totalContent += `
     <div class="resultRow d-flex" style="border-left: solid 5px ${allRecords[i].borderColorKey};">
-      <div class="result-element">${allRecords[i].bmiLevelKey}</div>
-      <div class="result-element"><small class="text-sm">BMI: </small><large class="text-lg">${allRecords[i].bmiKey}</large></div>
-      <div class="result-element"><small class="text-sm">體重: </small><large class="text-lg">` +
-      allRecords[i].weightKey +
-      `</large><small class="text-sm"> kg</small></div>
-      <div class="result-element"><small class="text-sm">身高: </small><large class="text-lg">` +
-      allRecords[i].heightKey +
-      `</large><small class="text-sm"> cm</small></div>
-      <div class="result-element">` +
-      allRecords[i].clickTimeKey +
-      `</div>
-      <div class="result-element"><span href="#" data-index="${i}" class="deleteRecord">delete</span></div>
+      <div class="result-element alone-lg">${allRecords[i].bmiLevelKey}</div>
+      <div class="result-element"><small class="text-sm hide-md">BMI: </small><large class="text-lg">${allRecords[i].bmiKey}</large></div>
+      <div class="result-element"><small class="text-sm hide-md">體重: </small><large class="text-lg">${allRecords[i].weightKey}</large><small class="text-sm"> kg</small></div>
+      <div class="result-element"><small class="text-sm hide-md">身高: </small><large class="text-lg">${allRecords[i].heightKey}</large><small class="text-sm"> cm</small></div>
+      <div class="result-element"><small class="text-sm">${allRecords[i].clickTimeKey}</small></div>
+      <div class="result-element alone-lg"><span href="#" data-index="${i}" class="deleteRecord">delete</span></div>
     </div>
     `;
   }
-
   resultDisplay.innerHTML = totalContent;
 }
-
-displayResult();
-// 如果有歷史紀錄，則一載入會就顯示
-
-checkResult.addEventListener(
-  "click",
-  function(e) {
-    e.preventDefault;
-    manHeightValue = parseFloat(manHeight.value);
-    manWeightValue = parseFloat(manWeight.value);
-    // 取出輸入數值，並解析成浮點數
-
-    checkNum();
-    if (isNaN(manHeightValue)) {
-      return;
-    }
-    if (isNaN(manWeightValue)) {
-      return;
-    }
-    // 如果輸入非數值，停止函數
-
-    calculateBMI();
-
-    getDate();
-    // 取得當下時間
-
-    rateBMI();
-    // 判斷 BMI 對應的健康程度，並先設定好 border 的色碼
-
-    storeInLocal();
-    // 取出 local storage 的輸入歷史，並將本次輸入資料存入 local storage
-
-    displayResult();
-    // 將全部的資料丟入迴圈，用 innerHTML 顯示到畫面上
-  },
-  false
-);
-
-resultDisplay.addEventListener(
-  "click",
-  function(e) {
-    e.preventDefault;
-    if (e.target.tagName !== "SPAN") {
-      return;
-    }
-    // 只有點到 <a>delete</a> 才觸發刪除紀錄功能
-    let index = e.target.dataset.index;
-    let allRecords = JSON.parse(localStorage.getItem("historyRecords"));
-    allRecords.splice(index, 1);
-    localStorage.setItem("historyRecords", JSON.stringify(allRecords));
-    displayResult();
-  },
-  false
-);

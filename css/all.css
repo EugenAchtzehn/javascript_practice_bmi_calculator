@@ -201,7 +201,7 @@ table {
   text-align: center;
 }
 
-.resultRow .result-element {
+.result-element {
   width: 16.66666%;
   padding-left: 1.2rem;
 }
@@ -244,4 +244,45 @@ table {
   text-decoration: none;
   color: #990000;
   cursor: pointer;
+}
+
+/* add responsive features */
+
+@media (max-width: 576px) {
+  .container .alone-sm {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .header-element {
+    width: 50%;
+  }
+
+  .hide-md {
+    display: none;
+  }
+
+  .text-lg {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .d-flex {
+    flex-wrap: wrap;
+  }
+  main .alone-lg {
+    width: 100%;
+  }
+  .result-element {
+    padding: 1rem 0;
+    width: 25%;
+    border-top: 0.5px solid lightgray;
+  }
+
+  .resultRow {
+    padding: 0;
+    border-bottom: 0.5px solid lightgray;
+    border-right: 0.5px solid lightgray;
+  }
 }
